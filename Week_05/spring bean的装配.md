@@ -1,4 +1,9 @@
 使用@Autowired进行属性的装配
+使用set方法进行属性赋值
+使用构造方法进行属性赋值
+代码实现：
+
+使用@Autowired进行属性的装配
 package com.geek.week_05.bean;
 
 import org.springframework.beans.factory.annotation.Autowired;
