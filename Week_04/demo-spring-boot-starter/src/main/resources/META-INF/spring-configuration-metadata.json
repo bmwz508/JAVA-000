@@ -1,0 +1,11 @@
+{"properties": [
+  {
+    "name": "spring.demo.enabled",
+    "type": "java.lang.Boolean",
+    "defaultValue": "true"
+  },
+  {
+    "name": "spring.demo.level",
+    "defaultValue": "debug"
+  }
+]}
