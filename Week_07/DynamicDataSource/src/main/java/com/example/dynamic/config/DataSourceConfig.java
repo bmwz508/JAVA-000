@@ -20,25 +20,24 @@ import java.util.Map;
 public class DataSourceConfig {
 
     @Bean
-
     @ConfigurationProperties("spring.datasource.master")
     public DataSource master() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @Primary
     @ConfigurationProperties("spring.datasource.slave1")
     public DataSource slave1() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    public DynamicDataSource dynamicDataSource(DataSource master, DataSource slave1) {
+    @Primary
+    public DynamicDataSource dynamicDataSource() {
         Map<Object, Object> targetDataSources = new HashMap<>(2);
-        targetDataSources.put("master", slave1);
-        targetDataSources.put("slave1", slave1);
-        return new DynamicDataSource(slave1, targetDataSources);
+        targetDataSources.put("master", master());
+        targetDataSources.put("slave1", slave1());
+        return new DynamicDataSource(master(), targetDataSources);
     }
 
 }
