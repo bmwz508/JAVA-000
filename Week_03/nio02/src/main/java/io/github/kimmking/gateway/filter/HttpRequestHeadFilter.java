@@ -11,8 +11,9 @@ import io.netty.handler.codec.http.FullHttpRequest;
 public class HttpRequestHeadFilter implements HttpRequestFilter  {
 
     @Override
-    public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
+    public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx, HttpRequestFilterChain chain) {
         fullRequest.headers().add("nio", "linmingfa");
+        chain.filter(fullRequest, ctx);
     }
 
 }

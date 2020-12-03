@@ -1,11 +1,15 @@
 package io.github.kimmking.gateway.inbound;
 
 import io.github.kimmking.gateway.filter.HttpRequestFilter;
+import io.github.kimmking.gateway.filter.HttpRequestHeadFilter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 	
@@ -24,7 +28,8 @@ public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 		p.addLast(new HttpServerCodec());
 		//p.addLast(new HttpServerExpectContinueHandler());
 		p.addLast(new HttpObjectAggregator(1024 * 1024));
-		p.addLast(new HttpFilterHandler());
-		p.addLast(new HttpInboundHandler(this.proxyServer));
+		List<HttpRequestFilter> filters = new ArrayList<>();
+		filters.add(new HttpRequestHeadFilter());
+		p.addLast(new HttpFilterHandler(filters,  new HttpInboundHandler(this.proxyServer)));
 	}
 }
