@@ -26,11 +26,14 @@ public class RedisStockService {
     public boolean lockStock(String key, Integer num) {
         Long stock = -1L;
         if (redisTemplate.hasKey(key)) {
+            //存在减库存
             stock = redisTemplate.opsForValue().decrement(key, num);
         }else {
+            //不存在添加库存
             String random = String.valueOf(new Random().nextInt(1000000));
             try {
                 if (distributedLock.tryLock(LOCK_PREFIX + key, random)) {
+                    //双重检验锁
                     if (!redisTemplate.hasKey(key)) {
                         redisTemplate.opsForValue().increment(key, totalStock);
                         redisTemplate.expire(key, 10, TimeUnit.MINUTES);
@@ -44,7 +47,6 @@ public class RedisStockService {
             }finally {
                 distributedLock.unLock(key, random);
             }
-
         }
         boolean success = stock >= 0;
         if (success) {
