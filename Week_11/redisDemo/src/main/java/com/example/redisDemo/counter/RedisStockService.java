@@ -25,6 +25,7 @@ public class RedisStockService {
 
     public boolean lockStock(String key, Integer num) {
         Long stock = -1L;
+
         if (redisTemplate.hasKey(key)) {
             //存在减库存
             stock = redisTemplate.opsForValue().decrement(key, num);
