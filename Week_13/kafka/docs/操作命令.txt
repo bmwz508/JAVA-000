@@ -1,0 +1,15 @@
+启动zookeeper：
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+启动kafka：
+.\bin\windows\kafka-server-start.bat .\config\server1.properties
+.\bin\windows\kafka-server-start.bat .\config\server1.properties
+.\bin\windows\kafka-server-start.bat .\config\server1.properties
+
+基础测试：
+.\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9093 --topic test32 
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9091 --topic test32 -- from-beginning 
+
+性能测试： 
+.\bin\windows\kafka-producer-perf-test.bat --topic test32 --num-records 100000 --record-size 1000 --throughput 2000 --producer-props bootstrap.servers=localhost:9092
+.\bin\windows\kafka-consumer-perf-test.bat --bootstrap-server localhost:9092 --topic test32 --fetch-size 1048576 --messages 100000 --threads 1
